@@ -1,6 +1,14 @@
 Atomplot
 ========
 
+Calculate plot::
+
+    ./calc
+
+Plot it::
+
+    ./run
+
 Notes about VTK formats
 -----------------------
 
