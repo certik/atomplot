@@ -1,7 +1,8 @@
 from numpy import (arange, size, empty, linspace, sqrt, arctan2, exp, sin, cos,
-        pi)
+        pi, loadtxt)
 import numpy as np
 from scipy.special import sph_harm, genlaguerre
+from scipy.interpolate import UnivariateSpline
 import visit_writer
 
 def sph2cart(r, theta, phi):
@@ -19,6 +20,11 @@ def cart2sph(x, y, z):
         phi += 2*pi
     return r, theta, phi
 
+print "Loading data..."
+_R = [float(x) for x in open("Ra/R.txt").read().split()]
+_eigs = [loadtxt("Ra/eigs%d.txt" % l) for l in [0, 1, 2, 3]]
+print "Done."
+
 def R(n, l, r):
     assert n > l
     a0 = 0.3
@@ -34,6 +40,9 @@ def rho(n, l, m, r, theta, phi):
 
 def f(n, l, m, r, theta, phi):
     return rho(n, l, m, r, theta, phi)
+
+def f2(n, l, m, r, theta, phi, Rnl):
+    return abs(Rnl * Ylm(l, m, theta, phi))**2
 
 rmax = 8.
 N = 2  # Number of elements in the radial direction
@@ -56,13 +65,15 @@ for l in [0, 1, 2, 3]:
     elif l == 3:
         nmax = 4
     for n in range(l+1, nmax+1):
+        Rnl = UnivariateSpline(_R, _eigs[l][:, n-l-1], k=3)
         for m in range(-l, l+1):
             print n, l, m
             for k in range(NZ):
                for j in range(NY):
                    for i in range(NX):
                        r, theta, phi = cart2sph(x[i], y[j], z[k])
-                       nodal[k*NX*NY+j*NX+i] = f(n, l, m, r, theta, phi)
+                       nodal[k*NX*NY+j*NX+i] = f2(n, l, m, r, theta, phi,
+                               Rnl(r))
             vars.append(("Orbital(n=%d,l=%d,m=%d)" % (n, l, m), 1, 1,
                 list(nodal)))
 visit_writer.WriteRectilinearMesh("Ra.vtk", 0, list(x), list(y), list(z), vars)
