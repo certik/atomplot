@@ -51,10 +51,11 @@ def mesh_exp(rmin, rmax, a, N):
     return alpha * (exp(beta*(i-1))-1) + rmin
 
 rmax = 25.
-N = 10  # Number of elements in the radial direction
+N = 30  # Number of elements in the radial direction
 x = empty(2*N+1, dtype="double")
 x[N:2*N+1] = mesh_exp(0, rmax, 400, N)
 x[0:N+1] = -mesh_exp(0, rmax, 400, N)[::-1]
+print "Mesh"
 print x
 y = x
 z = x
