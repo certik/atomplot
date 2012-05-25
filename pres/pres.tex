@@ -59,7 +59,7 @@ We are solving the Hartree-Fock equations:
 \]
 (where $Z$ is the atomic charge, ${\bf x}$, ${\bf y}$ are 3D coordinates and
 $\psi_i({\bf x})$ are atomic orbitals) in spherical symmetry. After
-manipulation, they become:
+manipulation, they become (for closed shell atoms):
 
 \[
     -{1\over2} P_{nl}''(r) +
@@ -82,6 +82,34 @@ manipulation, they become:
         = \epsilon_{nl} P_{nl}(r)
 \]
 
+
+\end{frame}
+
+\begin{frame}{Weak Formulation}
+
+\[
+    \int_0^\infty \left( {1\over2} u'(r) v'(r) +
+        \left({l(l+1)\over 2r^2} -{Z\over r} + V_H(r)\right)u(r)v(r)
+            \right) \d r+
+\]
+\[
+            -\sum_{n'l'}
+                2(2l'+1)
+                \sum_{k=|l-l'|}^{k=l+l'}
+                {1\over2}\begin{pmatrix} l & k & l' \\ 0 & 0 & 0 \end{pmatrix}^2
+                R^k(v, n'l', u, n'l')
+        =
+\]
+\[
+        = \epsilon \int_0^\infty u(r)v(r)\d r
+\]
+
+$R^k(a, b, c, d)$ is a Slater integral, $V_H(r)$ is a Hartree potential.
+The solution $u$ is related to $R(r)$ from the first slide by:
+
+\[
+    u(r) = rR(r)
+\]
 
 \end{frame}
 
