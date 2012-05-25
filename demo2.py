@@ -36,7 +36,7 @@ def f(n, l, m, r, theta, phi):
     return rho(n, l, m, r, theta, phi)
 
 rmax = 8.
-N = 10  # Number of elements in the radial direction
+N = 4  # Number of elements in the radial direction
 x = linspace(-rmax, rmax, 2*N)
 y = linspace(-rmax, rmax, 2*N)
 z = linspace(-rmax, rmax, 2*N)
@@ -44,16 +44,25 @@ NX = size(x)
 NY = size(y)
 NZ = size(z)
 # Create a nodal variable
-n = 4
-l = 3
-nodal = empty((2*l+1, NX*NY*NZ), dtype="double")
-for k in range(NZ):
-   for j in range(NY):
-       for i in range(NX):
-           r, theta, phi = cart2sph(x[i], y[j], z[k])
-           for m in range(-l, l+1):
-               nodal[m, k*NX*NY+j*NX+i] = f(n, l, m, r, theta, phi)
 vars = []
-for m in range(-l, l+1):
-    vars.append(("Orbital(l=%d,m=%d)" % (l, m), 1, 1, list(nodal[m, :])))
-visit_writer.WriteRectilinearMesh("xx.vtk", 0, list(x), list(y), list(z), vars)
+nodal = empty(NX*NY*NZ, dtype="double")
+for l in [0, 1, 2, 3]:
+    if l == 0:
+        nmax = 7
+    elif l == 1:
+        nmax = 6
+    elif l == 2:
+        nmax = 5
+    elif l == 3:
+        nmax = 4
+    for n in range(l+1, nmax+1):
+        for m in range(-l, l+1):
+            print n, l, m
+            for k in range(NZ):
+               for j in range(NY):
+                   for i in range(NX):
+                       r, theta, phi = cart2sph(x[i], y[j], z[k])
+                       nodal[k*NX*NY+j*NX+i] = f(n, l, m, r, theta, phi)
+            vars.append(("Orbital(n=%d,l=%d,m=%d)" % (n, l, m), 1, 1,
+                list(nodal)))
+visit_writer.WriteRectilinearMesh("Ra.vtk", 0, list(x), list(y), list(z), vars)
