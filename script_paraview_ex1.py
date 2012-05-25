@@ -28,3 +28,8 @@ dp.ColorAttributeType = 'POINT_DATA'
 dp.ColorArrayName = 'Elevation' # color by Elevation
 Render()
 WriteImage("image.png")
+
+print "Writing to file:"
+writer = CreateWriter("ff.vtk")
+writer.UpdatePipeline()
+print "Done"
