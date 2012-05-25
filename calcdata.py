@@ -1,5 +1,5 @@
 from numpy import (arange, size, empty, linspace, sqrt, arctan2, exp, sin, cos,
-        pi, loadtxt)
+        pi, loadtxt, log)
 import numpy as np
 from scipy.special import sph_harm, genlaguerre
 from scipy.interpolate import UnivariateSpline
@@ -44,11 +44,20 @@ def f(n, l, m, r, theta, phi):
 def f2(n, l, m, r, theta, phi, Rnl):
     return abs(Rnl * Ylm(l, m, theta, phi))**2
 
-rmax = 8.
-N = 2  # Number of elements in the radial direction
-x = linspace(-rmax, rmax, 2*N)
-y = linspace(-rmax, rmax, 2*N)
-z = linspace(-rmax, rmax, 2*N)
+def mesh_exp(rmin, rmax, a, N):
+    beta = log(a) / (N - 1)
+    alpha = (rmax - rmin) / (exp(beta*N) - 1)
+    i = linspace(1, N+1, N+1)
+    return alpha * (exp(beta*(i-1))-1) + rmin
+
+rmax = 25.
+N = 10  # Number of elements in the radial direction
+x = empty(2*N+1, dtype="double")
+x[N:2*N+1] = mesh_exp(0, rmax, 400, N)
+x[0:N+1] = mesh_exp(0, rmax, 400, N)[::-1]
+print x
+y = x
+z = x
 NX = size(x)
 NY = size(y)
 NZ = size(z)
