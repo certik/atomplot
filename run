@@ -2,4 +2,4 @@
 
 set -e
 
-paraview --script=script_paraview_ex1.py
+paraview --script=plot_paraview.py
