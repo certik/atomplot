@@ -1,5 +1,6 @@
 \documentclass{beamer}
 \usetheme{default}
+\def\d{{\rm d}}
 \begin{document}
 
 \begin{frame}{Atomic Orbitals}
@@ -43,10 +44,44 @@ From left to right $(n l m)$: 610, 522, 521, 520
 
 \begin{frame}{Details}
 
-We are solving the atomic Hartree-Fock equations:
+We are solving the Hartree-Fock equations:
 \[
-    HF
+    \left(-{1\over 2} \nabla^2 -{Z\over |{\bf x}|}
+    +
+    \int {\sum_{j=1}^Z|\psi_j({\bf y})|^2\over|{\bf x}-{\bf y}|}
+            \d^3 y\right)\psi_i({\bf x}) +
 \]
+\[
+    - \sum_{j=1}^Z\int {\psi_i({\bf y})\psi_j^*({\bf y})\over|{\bf x}-{\bf y}|}
+            \d^3 y\,\,\psi_j({\bf x})
+    =
+    \epsilon_i \psi_i({\bf x})
+\]
+(where $Z$ is the atomic charge, ${\bf x}$, ${\bf y}$ are 3D coordinates and
+$\psi_i({\bf x})$ are atomic orbitals) in spherical symmetry. After
+manipulation, they become:
+
+\[
+    -{1\over2} P_{nl}''(r) +
+        \left({l(l+1)\over 2r^2} -{Z\over r} + V_H(r)\right)P_{nl}(r) +
+\]
+\[
+            -\sum_{n'l'}
+                f_{n'l'}
+                \sum_{k=|l-l'|}^{k=l+l'}
+                {1\over2}\begin{pmatrix} l & k & l' \\ 0 & 0 & 0 \end{pmatrix}^2
+                \int
+                {r_{<}^k\over r_{>}^{k+1}}
+                P_{nl}(r')
+                P_{n'l'}(r')
+                \d r'\,
+                    P_{n'l'}(r)
+        =
+\]
+\[
+        = \epsilon_{nl} P_{nl}(r)
+\]
+
 
 \end{frame}
 
