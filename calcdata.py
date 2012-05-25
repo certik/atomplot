@@ -1,5 +1,5 @@
 from numpy import (arange, size, empty, linspace, sqrt, arctan2, exp, sin, cos,
-        pi, loadtxt, log)
+        pi, loadtxt, log, hstack)
 import numpy as np
 from scipy.special import sph_harm, genlaguerre
 from scipy.interpolate import UnivariateSpline
@@ -74,7 +74,7 @@ for l in [0, 1, 2, 3]:
     elif l == 3:
         nmax = 4
     for n in range(l+1, nmax+1):
-        Rnl = UnivariateSpline(_R, _eigs[l][:, n-l-1], k=3)
+        Rnl = UnivariateSpline(_R, _eigs[l][:, n-l-1], k=3, s=0)
         for m in range(-l, l+1):
             print n, l, m
             for k in range(NZ):
