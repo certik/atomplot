@@ -36,7 +36,7 @@ def f(n, l, m, r, theta, phi):
     return rho(n, l, m, r, theta, phi)
 
 rmax = 8.
-N = 4  # Number of elements in the radial direction
+N = 2  # Number of elements in the radial direction
 x = linspace(-rmax, rmax, 2*N)
 y = linspace(-rmax, rmax, 2*N)
 z = linspace(-rmax, rmax, 2*N)
