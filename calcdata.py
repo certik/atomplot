@@ -54,7 +54,7 @@ rmax = 25.
 N = 10  # Number of elements in the radial direction
 x = empty(2*N+1, dtype="double")
 x[N:2*N+1] = mesh_exp(0, rmax, 400, N)
-x[0:N+1] = mesh_exp(0, rmax, 400, N)[::-1]
+x[0:N+1] = -mesh_exp(0, rmax, 400, N)[::-1]
 print x
 y = x
 z = x
